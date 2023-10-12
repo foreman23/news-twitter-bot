@@ -3,6 +3,7 @@ import os
 import requests
 from dotenv import load_dotenv
 from scraper import scrapeHeadline
+import math
 
 load_dotenv()
 
@@ -16,6 +17,7 @@ def genArtFromHeadline(headline):
     if api_key is None:
         raise Exception("Missing Stability API key.")
 
+    # Generate art
     response = requests.post(
         f"{api_host}/v1/generation/{engine_id}/text-to-image",
         headers={
@@ -34,6 +36,7 @@ def genArtFromHeadline(headline):
             "width": 512,
             "samples": 1,
             "steps": 20,
+            "style_preset": "digital-art",
         },
     )
 
@@ -46,5 +49,15 @@ def genArtFromHeadline(headline):
         with open(f"./images/v1_txt2img_{i}.png", "wb") as f:
             f.write(base64.b64decode(image["base64"]))
 
+    # Check remaining credit balance after operation
+    url = f"{api_host}/v1/user/balance"
+    balance = requests.get(url, headers={
+        "Authorization": f"Bearer {api_key}"
+    })
 
-genArtFromHeadline(scrapeHeadline())
+    if balance.status_code != 200:
+        raise Exception("Non-200 response: " + str(balance.text))
+
+    currentBalance = balance.json()
+    print("Credits remaining:", currentBalance["credits"])
+    print("~", math.floor(float(currentBalance["credits"] * 5)), "images")

@@ -1,5 +1,6 @@
 import time
 from scraper import scrapeHeadline
+from tweet import post_tweet
 
 
 def checkForUpdates():
@@ -13,9 +14,17 @@ def checkForUpdates():
         headline = scrapeHeadline()
         print(headline["text"])
         if headline["text"] != prevHeadline:
-            print("Old headline:", prevHeadline)
-            print("New headline:", headline["text"])
-            prevHeadline = headline["text"]
+            if prevHeadline is not None:
+                print("Old headline:", prevHeadline)
+                print("New headline:", headline["text"])
+                prevHeadline = headline["text"]
+                print("POSTING TWEET")
+                # post_tweet(headline)
+            else:
+                print("Old headline:", prevHeadline)
+                print("New headline:", headline["text"])
+                prevHeadline = headline["text"]
+
         else:
             print("Headline has not changed")
         time.sleep(1200)

@@ -53,6 +53,3 @@ def upload_media(headline):
     media_id = re.search("media_id=(.+?),", text).group(1)
     payload = {"text": headline, "media": {"media_ids": ["{}".format(media_id)]}}
     return payload
-
-
-post_tweet(scrapeHeadline())
