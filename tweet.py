@@ -5,6 +5,7 @@ import tweepy
 import os
 from dotenv import load_dotenv
 import json
+from scraper import scrapeHeadline
 
 # Stage the keys from the environment variables
 load_dotenv()
@@ -55,5 +56,5 @@ def upload_media():
     return payload
 
 
-payload = upload_media()
-post_tweet(payload)
+# payload = upload_media()
+post_tweet(scrapeHeadline())
