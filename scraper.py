@@ -5,14 +5,14 @@ import json
 
 def scrapeHeadline():
     """
-    Scrapes NBC News site for most recent headline
+    Scrapes Fox News site for most recent headline
     """
-    quote_page = 'https://www.nbcnews.com/'
+    quote_page = 'https://www.foxnews.com/'
     page = urlopen(quote_page)
 
     soup = BeautifulSoup(page, 'html.parser')
 
-    header = soup.find('div', attrs={'class': 'layout-grid-container'}).find('a')
+    header = soup.find('h3', attrs={'class': 'title title-color-red'}).find('a')
     headerText = header.text.strip()
 
     # Convert headerText string to json

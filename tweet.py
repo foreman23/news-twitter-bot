@@ -1,11 +1,11 @@
 from requests_oauthlib import OAuth1Session
-import requests
 import re
 import tweepy
 import os
 from dotenv import load_dotenv
 import json
 from scraper import scrapeHeadline
+from artgen import genArtFromHeadline
 
 # Stage the keys from the environment variables
 load_dotenv()
@@ -22,7 +22,13 @@ oauth = OAuth1Session(
 )
 
 
-def post_tweet(payload):
+def post_tweet(headline):
+
+    # Generate art from headline
+    genArtFromHeadline(headline)
+
+    # Post generated image and text headline to Twitter
+    payload = upload_media(headline["text"])
     response = oauth.post("https://api.twitter.com/2/tweets", json=payload)
     if response.status_code != 201:
         raise Exception(
@@ -34,7 +40,7 @@ def post_tweet(payload):
     print(json.dumps(json_response, indent=4, sort_keys=True))
 
 
-def upload_media():
+def upload_media(headline):
     tweepy_auth = tweepy.OAuth1UserHandler(
         "{}".format(os.getenv("CONSUMER_KEY")),
         "{}".format(os.getenv("CONSUMER_SECRET")),
@@ -42,19 +48,11 @@ def upload_media():
         "{}".format(os.getenv("ACCESS_TOKEN_SECRET")),
     )
     tweepy_api = tweepy.API(tweepy_auth)
-    url = "https://api.thecatapi.com/v1/images/search"
-    cats = requests.request("GET", url).json()
-    cat_pic = cats[0]["url"]
-    img_data = requests.get(cat_pic).content
-    with open("catpic.jpg", "wb") as handler:
-        handler.write(img_data)
-    post = tweepy_api.simple_upload("catpic.jpg")
+    post = tweepy_api.simple_upload("./images/v1_txt2img_0.png")
     text = str(post)
     media_id = re.search("media_id=(.+?),", text).group(1)
-    payload = {"text": "hello world", "media": {"media_ids": ["{}".format(media_id)]}}
-    os.remove("catpic.jpg")
+    payload = {"text": headline, "media": {"media_ids": ["{}".format(media_id)]}}
     return payload
 
 
-# payload = upload_media()
 post_tweet(scrapeHeadline())

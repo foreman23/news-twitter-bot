@@ -8,6 +8,7 @@ load_dotenv()
 
 
 def genArtFromHeadline(headline):
+    headline = headline["text"]
     engine_id = "stable-diffusion-512-v2-1"
     api_host = os.getenv('API_HOST')
     api_key = os.getenv("STABILITY_API_KEY")
@@ -25,7 +26,7 @@ def genArtFromHeadline(headline):
         json={
             "text_prompts": [
                 {
-                    "text": "A lighthouse on a cliff"
+                    "text": headline
                 }
             ],
             "cfg_scale": 7,
