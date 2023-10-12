@@ -12,7 +12,7 @@ def scrapeHeadline():
 
     soup = BeautifulSoup(page, 'html.parser')
 
-    header = soup.find('h3', attrs={'class': 'title title-color-red'}).find('a')
+    header = soup.find('h3', attrs={'class': 'title'}).find('a')
     headerText = header.text.strip()
 
     # Convert headerText string to json
