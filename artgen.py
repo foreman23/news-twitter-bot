@@ -2,7 +2,6 @@ import base64
 import os
 import requests
 from dotenv import load_dotenv
-from scraper import scrapeHeadline
 import math
 
 load_dotenv()

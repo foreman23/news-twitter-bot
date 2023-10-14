@@ -4,7 +4,6 @@ import tweepy
 import os
 from dotenv import load_dotenv
 import json
-from scraper import scrapeHeadline
 from artgen import genArtFromHeadline
 
 # Stage the keys from the environment variables
@@ -35,9 +34,9 @@ def post_tweet(headline):
             "Request returned an error: {} {}".format(response.status_code, response.text)
         )
 
-    print("Response code: {}".format(response.status_code))
+    # print("Response code: {}".format(response.status_code))
     json_response = response.json()
-    print(json.dumps(json_response, indent=4, sort_keys=True))
+    # print(json.dumps(json_response, indent=4, sort_keys=True))
 
 
 def upload_media(headline):
