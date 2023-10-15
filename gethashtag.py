@@ -39,7 +39,12 @@ def getHashtagFromHeaderNBA(header):
     payload = []
 
     for word in header.split():
-        if word in teamHashtagsNBA:
+        if '-' in word:
+            words = word.split('-')
+            for w in words:
+                if w in teamHashtagsNBA:
+                    payload.append(teamHashtagsNBA[w])
+        elif word in teamHashtagsNBA:
             payload.append(teamHashtagsNBA[word])
 
     return payload

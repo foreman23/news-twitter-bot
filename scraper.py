@@ -106,7 +106,7 @@ def scrapeYahooNBA():
     """
     Scrapes yahoo news for nba related articles
     """
-    quote_page = 'https://sports.yahoo.com/nba/news/'
+    quote_page = 'https://sports.yahoo.com/nba/'
     page = urlopen(quote_page)
 
     soup = BeautifulSoup(page, 'html.parser')
