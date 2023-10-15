@@ -1,11 +1,12 @@
 import time
-from scraper import scrapeBingNews
+# from scraper import scrapeBingNews
+from scraper import scrapeYahooNBA
 from tweet import post_tweet
 
 
 def checkForUpdates():
     """
-    Checks for Fox News headline updates every 60 minutes
+    Checks for headline updates every X minutes
     """
     prevHeadline = None
     timeLastUpdated = None
@@ -15,7 +16,7 @@ def checkForUpdates():
         print(time.ctime())
         print("Last Update:", timeLastUpdated)
         print("Scraping headline...\n")
-        headline = scrapeBingNews()
+        headline = scrapeYahooNBA()
         if headline["text"] != prevHeadline:
             if prevHeadline is not None:
                 print("Old headline:", prevHeadline)

@@ -102,4 +102,52 @@ def scrapeBingNBA():
 
     return jsonObj
 
-scrapeBingNBA()
+
+def scrapeYahooNBA():
+    """
+    Scrapes yahoo news for nba related articles
+    """
+    quote_page = 'https://sports.yahoo.com/nba/news/'
+    page = urlopen(quote_page)
+
+    soup = BeautifulSoup(page, 'html.parser')
+
+    # Find Header Text
+    article = soup.find('div', attrs={'class': 'Cf'}).find('a')
+    header = article.text.strip()
+    link = article.get('href')
+    # print(header)
+    # print(link)
+
+    # Download article image as source
+    image_tag = soup.find('img', attrs={'class': 'W(100%)'})
+    image_link = image_tag.get('src')
+    # print(image_link)
+
+    urlretrieve(image_link, "./images/source.jpg")
+
+    # Resize image to square (512x512)
+    image_to_upscale = Image.open('./images/source.jpg')
+    target_size = (512, 512)
+    original_width, original_height = image_to_upscale.size
+    width_ratio = target_size[0] / original_width
+    heigh_ratio = target_size[1] / original_height
+    resize_ratio = min(width_ratio, heigh_ratio)
+    new_width = int(original_width * resize_ratio)
+    new_height = int(original_height * resize_ratio)
+    resized_image = image_to_upscale.resize((new_width, new_height))
+    background = Image.new("RGB", target_size)
+    paste_x = (target_size[0] - new_width) // 2
+    paste_y = (target_size[1] - new_height) // 2
+    background.paste(resized_image, (paste_x, paste_y))
+    background.save('./images/source.jpg')
+    image_to_upscale.close()
+
+    # Convert headerText string to json
+    data = {
+        "text": f"{header}\n{link}",
+    }
+    jsonString = json.dumps(data)
+    jsonObj = json.loads(jsonString)
+
+    return jsonObj

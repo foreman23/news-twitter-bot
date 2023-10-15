@@ -1,0 +1,3 @@
+teamHashtags = {
+    'Trailblazers'
+}

@@ -3,7 +3,8 @@ import os
 import requests
 from dotenv import load_dotenv
 import math
-from scraper import scrapeBingNBA
+# from scraper import scrapeBingNBA
+from scraper import scrapeYahooNBA
 from PIL import Image
 
 load_dotenv()
@@ -119,5 +120,15 @@ def genArtFromImageNBA(headline):
     cropped_image.save('./images/v1_img2img_0.png')
     image_to_upscale.close()
 
+    # Check remaining credit balance after operation
+    url = f"{api_host}/v1/user/balance"
+    balance = requests.get(url, headers={
+        "Authorization": f"Bearer {api_key}"
+    })
 
-genArtFromImageNBA(scrapeBingNBA())
+    if balance.status_code != 200:
+        raise Exception("Non-200 response: " + str(balance.text))
+
+    currentBalance = balance.json()
+    print("Credits remaining:", currentBalance["credits"])
+    print("~", math.floor(float(currentBalance["credits"] * 5)), "images")
