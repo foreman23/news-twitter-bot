@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 import json
 from artgen import genArtFromHeadline
+from artgen import genArtFromImageNBA
 
 # Stage the keys from the environment variables
 load_dotenv()
@@ -24,7 +25,7 @@ oauth = OAuth1Session(
 def post_tweet(headline):
 
     # Generate art from headline
-    genArtFromHeadline(headline)
+    genArtFromImageNBA(headline)
 
     # Post generated image and text headline to Twitter
     payload = upload_media(headline["text"])

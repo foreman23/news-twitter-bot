@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen, urlretrieve
 import json
+from PIL import Image
 
 import time
 
@@ -69,11 +70,28 @@ def scrapeBingNBA():
     header = article.get('data-title')
     link = article.get('data-url')
 
-    # Download article image temporarily
+    # Download article image as source
     image_tag = article.find('img', attrs={'class': 'rms_img'})
     image_link = 'https://th.bing.com' + image_tag.get('src')
 
     urlretrieve(image_link, "./images/source.jpg")
+
+    # Resize image to square (512x512)
+    image_to_upscale = Image.open('./images/source.jpg')
+    target_size = (512, 512)
+    original_width, original_height = image_to_upscale.size
+    width_ratio = target_size[0] / original_width
+    heigh_ratio = target_size[1] / original_height
+    resize_ratio = min(width_ratio, heigh_ratio)
+    new_width = int(original_width * resize_ratio)
+    new_height = int(original_height * resize_ratio)
+    resized_image = image_to_upscale.resize((new_width, new_height))
+    background = Image.new("RGB", target_size)
+    paste_x = (target_size[0] - new_width) // 2
+    paste_y = (target_size[1] - new_height) // 2
+    background.paste(resized_image, (paste_x, paste_y))
+    background.save('./images/source.jpg')
+    image_to_upscale.close()
 
     # Convert headerText string to json
     data = {
@@ -83,3 +101,5 @@ def scrapeBingNBA():
     jsonObj = json.loads(jsonString)
 
     return jsonObj
+
+scrapeBingNBA()
