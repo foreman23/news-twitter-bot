@@ -1,3 +1,0 @@
-teamHashtags = {
-    'Trailblazers'
-}

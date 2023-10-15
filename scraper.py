@@ -2,8 +2,7 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen, urlretrieve
 import json
 from PIL import Image
-
-import time
+from gethashtag import getHashtagFromHeaderNBA
 
 
 def scrapeFox():
@@ -143,10 +142,26 @@ def scrapeYahooNBA():
     background.save('./images/source.jpg')
     image_to_upscale.close()
 
+    # Generate Hashtag from headline if possible
+    hashtagArr = getHashtagFromHeaderNBA(header)
+    hashtag1 = "#NBA"
+
     # Convert headerText string to json
     data = {
-        "text": f"{header}\n{link}",
+        "text": f"{header}\n{hashtag1}\n\n{link}",
     }
+    if len(hashtagArr) == 1:
+        hashtag2 = hashtagArr[0]
+        data = {
+            "text": f"{header}\n{hashtag1} {hashtag2}\n\n{link}",
+        }
+    if len(hashtagArr) >= 2:
+        hashtag2 = hashtagArr[0]
+        hashtag3 = hashtagArr[1]
+        data = {
+            "text": f"{header}\n{hashtag1} {hashtag2} {hashtag3}\n\n{link}",
+        }
+
     jsonString = json.dumps(data)
     jsonObj = json.loads(jsonString)
 
