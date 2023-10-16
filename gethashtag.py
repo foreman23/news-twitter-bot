@@ -24,7 +24,7 @@ teamHashtagsNBA = {
     '76ers': '#BrotherlyLove',
     'Suns': '#WeAreTheValley',
     'Blazers': '#RipCity',
-    'Kings': '#SacramentoProud',
+    'Kings': '#LightTheBeam',
     'Spurs': '#PorVida',
     'Raptors': '#WeTheNorth',
     'Jazz': '#TakeNote',
@@ -39,6 +39,13 @@ def getHashtagFromHeaderNBA(header):
     payload = []
 
     for word in header.split():
+        # Check for apostrophe
+        if "'" in word:
+            # ex. Lakers' or Thunder's
+            if word[len(word) - 1] == "'" or word[len(word) - 2] == "'":
+                split_word = word.split("'")
+                payload.append(teamHashtagsNBA[split_word[0]])
+
         if '-' in word:
             words = word.split('-')
             for w in words:

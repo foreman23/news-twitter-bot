@@ -6,7 +6,7 @@ from tweet import post_tweet
 
 def checkForUpdates():
     """
-    Checks for headline updates every X minutes
+    Checks for headline updates every X seconds
     """
     prevHeadline = None
     timeLastUpdated = None
@@ -45,7 +45,7 @@ def checkForUpdates():
 
         else:
             print("Headline has not changed")
-        time.sleep(5200)
+        time.sleep(2700)
 
 
 if __name__ == "__main__":

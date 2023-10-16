@@ -90,7 +90,7 @@ def genArtFromImageNBA(headline):
             "init_image": open("./images/source.jpg", "rb")
         },
         data={
-            "image_strength": 0.6,
+            "image_strength": 0.45,
             "init_image_mode": "IMAGE_STRENGTH",
             "text_prompts[0][text]": f"{headline}, funny, caricature, digital art, masterpiece",
             "cfg_scale": 7,
