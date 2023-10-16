@@ -45,7 +45,7 @@ def checkForUpdates():
 
         else:
             print("Headline has not changed")
-        time.sleep(2700)
+        time.sleep(1800)
 
 
 if __name__ == "__main__":

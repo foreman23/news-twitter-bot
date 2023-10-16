@@ -44,7 +44,8 @@ def getHashtagFromHeaderNBA(header):
             # ex. Lakers' or Thunder's
             if word[len(word) - 1] == "'" or word[len(word) - 2] == "'":
                 split_word = word.split("'")
-                payload.append(teamHashtagsNBA[split_word[0]])
+                if split_word[0] in teamHashtagsNBA:
+                    payload.append(teamHashtagsNBA[split_word[0]])
 
         if '-' in word:
             words = word.split('-')
