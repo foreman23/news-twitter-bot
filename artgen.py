@@ -90,9 +90,9 @@ def genArtFromImageNBA(headline):
             "init_image": open("./images/source.jpg", "rb")
         },
         data={
-            "image_strength": 0.45,
+            "image_strength": 0.65,
             "init_image_mode": "IMAGE_STRENGTH",
-            "text_prompts[0][text]": f"{headline}, funny, caricature, digital art, masterpiece",
+            "text_prompts[0][text]": f"{headline}, funny, caricature",
             "cfg_scale": 7,
             "samples": 1,
             "steps": 20,
@@ -132,3 +132,5 @@ def genArtFromImageNBA(headline):
     currentBalance = balance.json()
     print("Credits remaining:", currentBalance["credits"])
     print("~", math.floor(float(currentBalance["credits"] * 5)), "images")
+
+genArtFromImageNBA(scrapeYahooNBA())
