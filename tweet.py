@@ -25,7 +25,8 @@ oauth = OAuth1Session(
 def post_tweet(headline):
 
     # Generate art from headline
-    genArtFromImageNBA(headline)
+    #genArtFromImageNBA(headline)
+    genArtFromHeadline(headline)
 
     # Post generated image and text headline to Twitter
     payload = upload_media(headline["text"])
@@ -48,7 +49,7 @@ def upload_media(headline):
         "{}".format(os.getenv("ACCESS_TOKEN_SECRET")),
     )
     tweepy_api = tweepy.API(tweepy_auth)
-    post = tweepy_api.simple_upload("./images/v1_img2img_0.png")
+    post = tweepy_api.simple_upload("./images/v1_txt2img_0.png")
     text = str(post)
     media_id = re.search("media_id=(.+?),", text).group(1)
     payload = {"text": headline, "media": {"media_ids": ["{}".format(media_id)]}}

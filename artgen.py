@@ -33,15 +33,15 @@ def genArtFromHeadline(headline):
         json={
             "text_prompts": [
                 {
-                    "text": headline
+                    "text": f"{headline}, (art by Hayao Miyazaki), good anatomy"
                 }
             ],
-            "cfg_scale": 7,
+            "cfg_scale": 4.5,
             "height": 512,
             "width": 512,
             "samples": 1,
             "steps": 20,
-            "style_preset": "digital-art",
+            "style_preset": "anime",
         },
     )
 
@@ -90,9 +90,9 @@ def genArtFromImageNBA(headline):
             "init_image": open("./images/source.jpg", "rb")
         },
         data={
-            "image_strength": 0.65,
+            "image_strength": 0.6,
             "init_image_mode": "IMAGE_STRENGTH",
-            "text_prompts[0][text]": f"{headline}, funny, caricature",
+            "text_prompts[0][text]": f"{headline}, ((anime))",
             "cfg_scale": 7,
             "samples": 1,
             "steps": 20,
@@ -133,4 +133,5 @@ def genArtFromImageNBA(headline):
     print("Credits remaining:", currentBalance["credits"])
     print("~", math.floor(float(currentBalance["credits"] * 5)), "images")
 
-genArtFromImageNBA(scrapeYahooNBA())
+
+genArtFromHeadline(scrapeYahooNBA())

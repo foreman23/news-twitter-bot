@@ -7,6 +7,7 @@ teamHashtagsNBA = {
     'Cavaliers': '#LetEmKnow',
     'Cavs': '#LetEmKnow',
     'Mavericks': '#MFFL',
+    'Mavs': '#MFFL',
     'Nuggets': '#MileHighBasketball',
     'Pistons': '#Pistons',
     'Warriors': '#DubNation',
