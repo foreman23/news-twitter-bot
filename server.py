@@ -1,6 +1,7 @@
 import time
 # from scraper import scrapeBingNews
 from scraper import scrapeYahooNBA
+from scraper import scrapeBingNews
 from tweet import post_tweet
 
 

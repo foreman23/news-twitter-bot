@@ -5,7 +5,10 @@ from dotenv import load_dotenv
 import math
 # from scraper import scrapeBingNBA
 from scraper import scrapeYahooNBA
+from scraper import scrapeBingNews
 from PIL import Image
+import random
+from gethashtag import teamHashtagsNBA
 
 load_dotenv()
 
@@ -21,6 +24,31 @@ def genArtFromHeadline(headline):
 
     if api_key is None:
         raise Exception("Missing Stability API key.")
+    
+    # Create prompt from headline
+    wordList = headline.split()
+    # remove hashtags and links
+    hashtagList = []
+    hashtagRemovedList = []
+    for word in wordList:
+        if word.startswith('#'):
+            hashtagList.append(word)
+        elif not word.startswith('https://'):
+            hashtagRemovedList.append(word)
+
+    # search hashtag dict for team name
+    filteredDict = {key: value for key, value in teamHashtagsNBA.items() if value in hashtagList}
+    teamNameArr = list(filteredDict.keys())
+    teamName = f"{teamNameArr[0]} team NBA"
+    joinedList = ' '.join(hashtagRemovedList)
+    textPrompt = f"{teamName}, {joinedList}"
+        
+    # Randomly choose an art style
+    styles = ['3d-model', 'analog-film', 'anime', 'cinematic', 'comic-book', 'digital-art', 'enhance', 'fantasy-art', 'isometric', 'line-art', 'low-poly', 'modeling-compound', 'neon-punk', 'origami', 'photographic', 'pixel-art', 'tile-texture']
+    randIndex = random.randint(0, len(styles) - 1)
+    chosenSyle = styles[randIndex]
+    print(chosenSyle)
+    print(textPrompt)
 
     # Generate art
     response = requests.post(
@@ -33,15 +61,15 @@ def genArtFromHeadline(headline):
         json={
             "text_prompts": [
                 {
-                    "text": f"{headline}, (art by Hayao Miyazaki), good anatomy"
+                    "text": f"nba, basketball, {textPrompt}"
                 }
             ],
-            "cfg_scale": 4.5,
+            "cfg_scale": 7,
             "height": 512,
             "width": 512,
             "samples": 1,
             "steps": 20,
-            "style_preset": "anime",
+            "style_preset": chosenSyle,
         },
     )
 
@@ -132,6 +160,3 @@ def genArtFromImageNBA(headline):
     currentBalance = balance.json()
     print("Credits remaining:", currentBalance["credits"])
     print("~", math.floor(float(currentBalance["credits"] * 5)), "images")
-
-
-genArtFromHeadline(scrapeYahooNBA())
