@@ -148,18 +148,18 @@ def scrapeYahooNBA():
 
     # Convert headerText string to json
     data = {
-        "text": f"{header}\n{hashtag1}\n\n{link}",
+        "text": f"{header}\n{hashtag1}\n{link}",
     }
     if len(hashtagArr) == 1:
         hashtag2 = hashtagArr[0]
         data = {
-            "text": f"{header}\n{hashtag1} {hashtag2}\n\n{link}",
+            "text": f"{header}\n{hashtag1} {hashtag2}\n{link}",
         }
     if len(hashtagArr) >= 2:
         hashtag2 = hashtagArr[0]
         hashtag3 = hashtagArr[1]
         data = {
-            "text": f"{header}\n{hashtag1} {hashtag2} {hashtag3}\n\n{link}",
+            "text": f"{header}\n{hashtag1} {hashtag2} {hashtag3}\n{link}",
         }
 
     jsonString = json.dumps(data)
